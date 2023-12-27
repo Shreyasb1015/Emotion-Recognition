@@ -6,7 +6,7 @@ import dlib
 import numpy as np
 import os
 
-predictor=dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')  #type:ignore
+predictor=dlib.shape_predictor('Emotion-Recognition/shape_predictor_68_face_landmarks.dat')  #type:ignore
 detector=dlib.get_frontal_face_detector() #type:ignore
 
 camera=cv2.VideoCapture(0)
@@ -29,5 +29,21 @@ while True:
     
     cv2.imshow('Frame',frame)
     
+    if cv2.waitKey(1)==ord('a'):
+        landmarks_arr=np.array([[point.x-face.left(),point.y-face.top()] for point in landmarks_parts]) #type:ignore
+        frames.append(landmarks_arr.flatten())
+        results.append([mood])
+    
     if cv2.waitKey(1) == 27:
         break
+
+data=np.hstack((results,frames))
+
+if os.path.exists('moods.npy'):
+    file=np.load('moods.npy')
+    data=np.vstack((file,data))
+    
+np.save('moods.npy',data)
+
+cv2.destroyAllWindows()
+camera.release()
