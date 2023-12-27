@@ -39,11 +39,11 @@ while True:
 
 data=np.hstack((results,frames))
 
-if os.path.exists('moods.npy'):
+if os.path.exists('Emotion-Recognition/moods.npy'):
     file=np.load('moods.npy')
     data=np.vstack((file,data))
     
-np.save('moods.npy',data)
+np.save('Emotion-Recognition/moods.npy',data)
 
 cv2.destroyAllWindows()
 camera.release()
