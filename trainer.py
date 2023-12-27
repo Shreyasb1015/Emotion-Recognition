@@ -21,4 +21,13 @@ while True:
     gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
     faces=detector(gray)
     
-
+    for face in faces:
+        landmarks=predictor(gray,face)
+        landmarks_parts=landmarks.parts()
+        for landmark in landmarks_parts:
+            cv2.circle(frame,(landmark.x,landmark.y),2,(255,0,0),3)
+    
+    cv2.imshow('Frame',frame)
+    
+    if cv2.waitKey(1) == 27:
+        break
